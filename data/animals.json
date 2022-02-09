@@ -108,6 +108,17 @@
         "hungry"
       ],
       "id": "10"
+    },
+    {
+      "name": "Lizard",
+      "species": "Reptile",
+      "diet": "omnivore",
+      "personalityTraits": [
+        "hungry",
+        "zany",
+        "anxious"
+      ],
+      "id": "11"
     }
   ]
 }

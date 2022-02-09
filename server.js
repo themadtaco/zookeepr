@@ -1,4 +1,5 @@
 const express = require('express');
+const req = require('express/lib/request');
 const fs = require('fs');
 const path = require('path');
 const { animals } = require('./data/animals');
@@ -10,6 +11,8 @@ const app = express();
 app.use(express.urlencoded({ extended: true }));
 // parse incoming JSON data
 app.use(express.json());
+// make the public folder a static resource that can be accessed at any time without having to have a specific endpoint set
+app.use(express.static('public'));
 
 function filterByQuery(query, animalsArray) {
   let personalityTraitsArray = [];
@@ -86,6 +89,24 @@ app.get('/api/animals/:id', (req, res) => {
   } else {
     res.send(404);
   }
+});
+
+// Get routes for the .html files
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
+});
+
+app.get('/animals', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/animals.html'));
+});
+
+app.get('/zookeepers', (req, res) => {
+  res.sendFile(path.join(__dirname, './public/zookeepers.html'));
+});
+
+// order of the routes matters, always puth the '*' route last or none of your other routes will get called
+app.get('*', (req, res)  => {
+  res.sendFile(path.join(__dirname, './public/index.html'));
 });
 
 app.post('/api/animals', (req, res) => {
